@@ -1,9 +1,13 @@
 const githubUsers = {
+    // github_name: rocketchat_name
     "armandfardeau": "@armandfardeau",
     "Quentinchampenois": "@quentin",
     "moustachu": "@moustachu",
     "Dynnammo": "@baptiste",
-    "MoretS": "@seb"
+    "MoretS": "@seb",
+    "Quentin-Bernigaud": "@nimbus",
+    "virgile-dev": "@virgile",
+    "paulinebessoles": "@pops"
 };
 
 const GithubUsersToRocketUsers = (login) => {
@@ -46,9 +50,7 @@ class Script {
         if (request.content.action === "review_requested") {
             return {
                 content: {
-                    attachments: [{
-                        text: buildMessage(request.content).text
-                    }]
+                    text: buildMessage(request.content).text
                 }
             };
         } else {
