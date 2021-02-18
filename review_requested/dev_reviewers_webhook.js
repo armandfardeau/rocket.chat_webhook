@@ -1,3 +1,5 @@
+const teamName = "Reviewers";
+
 const githubUsers = {
     // github_name: rocketchat_name
     "armandfardeau": "@armandfardeau",
@@ -8,6 +10,19 @@ const githubUsers = {
     "Quentin-Bernigaud": "@nimbus",
     "virgile-dev": "@virgile",
     "paulinebessoles": "@pops"
+};
+
+const isReviewNotification = (obj) => {
+    return obj.action === "review_requested"
+};
+
+const isForTeamReviewers = (obj) => {
+    if (obj.requested_team !== undefined) {
+        return obj.requested_team.name === teamName
+    } else {
+        return false;
+    }
+
 };
 
 const GithubUsersToRocketUsers = (login) => {
@@ -47,14 +62,12 @@ class Script {
      * @params {object} request
      */
     process_incoming_request({request}) {
-        if (request.content.action === "review_requested") {
+        if (isReviewNotification(request.content) && isForTeamReviewers(request.content)) {
             return {
                 content: {
                     text: buildMessage(request.content).text
                 }
             };
-        } else {
-            return;
         }
     }
 }
